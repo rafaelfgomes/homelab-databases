@@ -1,0 +1,49 @@
+services:
+  mysql:
+    image: mysql:${MYSQL_IMAGE_VERSION:-latest}
+    container_name: mysql-db
+    restart: always
+    command: --default-time-zone=-03:00
+    volumes:
+      - ${MYSQL_DBDATA_FOLDER:-./data/mysql}:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=mysql
+      - TZ=${TIMEZONE:-UTC}
+    networks:
+      external:
+        ipv4_address: ${MYSQL_IP_ADDRESS}
+
+  postgres:
+    image: postgres:${POSTGRES_IMAGE_VERSION:-17}
+    container_name: postgres-db
+    restart: always
+    volumes:
+      - ${POSTGRES_DBDATA_FOLDER:-./data/postgres}:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=${POSTGRES_ROOT_PASSWORD}
+      - TZ=${TIMEZONE:-UTC}
+      - POSTGRES_DB=postgres
+    networks:
+      external:
+        ipv4_address: ${POSTGRES_IP_ADDRESS}
+
+  mongo:
+    image: mongo:${MONGO_IMAGE_VERSION:-latest}
+    container_name: mongo-db
+    restart: always
+    volumes:
+      - ${MONGO_DBDATA_FODER:-./data/mongo}:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_ROOT_PASSWORD}
+      - TZ=${TIMEZONE:-UTC}
+    networks:
+      external:
+        ipv4_address: ${MONGO_IP_ADDRESS}
+
+networks:
+  external:
+    external: true
+    name: ${EXTERNAL_NETWORK_NAME}
