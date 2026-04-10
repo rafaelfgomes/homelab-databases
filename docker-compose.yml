@@ -7,8 +7,7 @@ services:
     volumes:
       - ${MYSQL_DBDATA_FOLDER:-./data/mysql}:/var/lib/mysql
     environment:
-      - MYSQL_ROOT_PASWORD=${MYSQL_ROOT_PASSWORD}
-      - MYSQL_DATABASE=mysql
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - TZ=${TIMEZONE:-UTC}
     networks:
       external:
@@ -24,7 +23,6 @@ services:
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=${POSTGRES_ROOT_PASSWORD}
       - TZ=${TIMEZONE:-UTC}
-      - POSTGRES_DB=postgres
     networks:
       external:
         ipv4_address: ${POSTGRES_IP_ADDRESS}
@@ -34,7 +32,7 @@ services:
     container_name: mongo-db
     restart: always
     volumes:
-      - ${MONGO_DBDATA_FODER:-./data/mongo}:/data/db
+      - ${MONGO_DBDATA_FOLDER:-./data/mongo}:/data/db
     environment:
       - MONGO_INITDB_ROOT_USERNAME=admin
       - MONGO_INITDB_ROOT_PASSWORD=${MONGO_ROOT_PASSWORD}
